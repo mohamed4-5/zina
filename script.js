@@ -3,47 +3,52 @@ document.addEventListener('DOMContentLoaded', () => {
     const dropZone = document.getElementById('drop-zone');
     const girlReveal = document.getElementById('girl-reveal');
 
+    // 1. كود الكمبيوتر (Mouse Drag & Drop)
     piece.addEventListener('dragstart', (e) => {
         e.dataTransfer.setData('text/plain', 'piece');
     });
 
-    // دي أهم حتة! لازم نمنع الحدث الافتراضي عشان يسمح بالرمي
     dropZone.addEventListener('dragover', (e) => {
         e.preventDefault(); 
     });
 
     dropZone.addEventListener('drop', (e) => {
         e.preventDefault();
-        
-        // 1. اخفاء القمر والقطعة بأنيميشن
-        dropZone.classList.add('fade-out');
-        piece.classList.add('fade-out');
-        
-        // 2. إظهار البنت بعد ثانية (بعد ما القمر يختفي)
-        setTimeout(() => {
-            girlReveal.classList.add('show-girl');
-        }, 1000);
+        performDropAction();
     });
 
-        // هنضيف ده جنب الـ event listener العادي بتاعك
+    // 2. كود الموبايل (Touch Events)
+    piece.addEventListener('touchmove', (e) => {
+        e.preventDefault(); // منع الصفحة من السكرول أثناء التحريك
+        const touch = e.touches[0];
+        
+        // تحريك القطعة مع صباعك
+        piece.style.position = 'absolute';
+        piece.style.left = (touch.clientX - 75) + 'px';
+        piece.style.top = (touch.clientY - 75) + 'px';
+        piece.style.margin = '0';
+    }, {passive: false});
+
     piece.addEventListener('touchend', (e) => {
-        // نجيب مكان الإصبع على الشاشة
         const touch = e.changedTouches[0];
         const dropZoneRect = dropZone.getBoundingClientRect();
 
-        // نتحقق: هل مكان الإصبع جوه الـ drop-zone؟
+        // هل صباعك في نفس مكان القمر؟
         if (touch.clientX > dropZoneRect.left && 
             touch.clientX < dropZoneRect.right && 
             touch.clientY > dropZoneRect.top && 
             touch.clientY < dropZoneRect.bottom) {
             
-            // لو جوه، نشغل نفس كود الـ drop اللي أنت كاتبه
-            dropZone.classList.add('fade-out');
-            piece.classList.add('fade-out');
-            setTimeout(() => {
-                girlReveal.classList.add('show-girl');
-            }, 500);
+            performDropAction();
         }
     });
-});
 
+    // دالة واحدة موحدة للأكشن عشان ما نكررش الكود
+    function performDropAction() {
+        dropZone.classList.add('fade-out');
+        piece.classList.add('fade-out');
+        setTimeout(() => {
+            girlReveal.classList.add('show-girl');
+        }, 500);
+    }
+});
