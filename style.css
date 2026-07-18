@@ -1,0 +1,117 @@
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* خلفية فضاء مع نجوم */
+    background: 
+        radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+        radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+        radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px),
+        radial-gradient(circle at center, #1b2735 0%, #090a0f 100%);
+    background-size: 550px 550px, 350px 350px, 250px 250px, 100% 100%;
+    overflow: hidden;
+}
+
+.game-container {
+    position: relative;
+    width: 90vw;       /* ياخد 90% من عرض الشاشة */
+    height: 90vw;      /* يفضل مربع */
+    max-width: 400px;  /* بس ميزدش عن 400px (عشان ميبقاش عملاق على اللاب توب) */
+    max-height: 400px;
+}
+
+/* القمر */
+.moon-hole {
+    position: absolute;
+    top: 0; 
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+
+.moon {
+    width: 100%;
+    height: 100%;
+}
+
+/* القطعة (موقعها البداية بعيد عن القمر) */
+.puzzle-piece {
+    position: absolute;
+    bottom: -300px; /* نزلتها لتحت بعيد عن القمر */
+    left: -300px;   /* زقتها للشمال بعيد عن القمر */
+    width: 500px;
+    cursor: grab;
+    z-index: 10;
+    transition: transform 0.3s ease, opacity 0.5s ease;
+}
+
+.puzzle-piece:active { cursor: grabbing; }
+
+/* صورة البنت */
+.hidden-img {
+    position: absolute;
+    top: 0; 
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: 1; /* ورا كل حاجة لحد ما تظهر */
+    transition: opacity 1s ease-in-out;
+}
+
+.show-girl {
+    opacity: 1;
+    z-index: 3;
+    /* الأنيميشن الجديد */
+    animation: zoomIn 1.5s ease-out forwards;
+    /* دي اللمسات الفنية */
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px; /* عشان تنعم الحواف */
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.3); /* توهج أبيض خفيف */
+}
+
+
+@keyframes zoomIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* التأثير لما القطعة تتركب */
+.fade-out {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s ease;
+}
+
+/* ستايل الشهاب الواحد */
+.meteor {
+    position: absolute;
+    width: 2px;
+    height: 80px; /* طول الشهاب */
+    background: linear-gradient(to bottom, rgba(255,255,255,1), transparent);
+    transform: rotate(-45deg); /* زاوية السقوط */
+    opacity: 0;
+    pointer-events: none; /* عشان ميعطلش الماوس */
+    animation: shoot 5s linear infinite; /* سرعة الحركة */
+}
+
+/* حركة السقوط */
+@keyframes shoot {
+    0% {
+        transform: translateY(-100px) translateX(0) rotate(-45deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1; /* يظهر فجأة */
+    }
+    30% {
+        transform: translateY(300px) translateX(300px) rotate(-45deg);
+        opacity: 0; /* يختفي تدريجي */
+    }
+    100% {
+        opacity: 0; /* يفضل مختفي لحد ما يعيد الحركة */
+    }
+}

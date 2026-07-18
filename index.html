@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>لغز القمر</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+        <!-- خلفية الشهب -->
+    <div class="meteor" style="top: 10%; left: 20%; animation-delay: 0s;"></div>
+    <div class="meteor" style="top: 30%; left: 80%; animation-delay: 2s;"></div>
+    <div class="meteor" style="top: 50%; left: 10%; animation-delay: 4s;"></div>
+    <div class="meteor" style="top: 20%; left: 60%; animation-delay: 6s;"></div>
+
+    <div class="game-container">
+    <!-- صورة البنت -->
+    <img id="girl-reveal" src="assets/girl.jfif" class="hidden-img">
+
+    <!-- الـ drop-zone (القمر) -->
+    <div id="drop-zone" class="moon-hole"> 
+        <img src="assets/moon.png" alt="Moon" class="moon">
+    </div>
+
+    <!-- القطعة (خارج الـ drop-zone عشان تبعدها) -->
+    <img id="puzzle-piece" src="assets/puzzle-piece.png" draggable="true" class="puzzle-piece">
+    </div>
+
+    <script src="script.js"></script>
+      
+</body>
+</html>
